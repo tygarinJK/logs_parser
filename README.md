@@ -36,6 +36,8 @@ make install
 # Create the database
 make console args=doctrine:database:create
 
+# Run migrations
+make console args=doctrine:migrations:migrate
 ```
 
 Then open http://localhost:8088 in your browser.
