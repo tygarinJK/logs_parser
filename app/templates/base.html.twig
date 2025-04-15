@@ -8,10 +8,18 @@
         {% endblock %}
 
         {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
     <body>
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <a href="{{ path('app.logs.import') }}">Import from log file</a>
         {% block body %}{% endblock %}
     </body>
 </html>

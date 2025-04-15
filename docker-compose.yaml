@@ -8,6 +8,7 @@ services:
     container_name: logs_parser_php
     volumes:
       - ./app:/var/www/html
+      - ./logs:/var/logs:ro
     depends_on:
       - db
 
@@ -35,6 +36,22 @@ services:
       - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
+
+  rabbitmq:
+    image: rabbitmq:4.0-management  # Use the latest stable RabbitMQ with management UI
+    container_name: logs_parser_rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"   # AMQP port (for communication with Symfony)
+      - "15672:15672" # Management UI port
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "check_running" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
 volumes:
   db_data:
