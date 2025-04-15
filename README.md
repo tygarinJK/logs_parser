@@ -14,8 +14,6 @@ Includes:
 
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
-- [GNU Make](https://www.gnu.org/software/make/)
-- [Symfony CLI (optional)](https://symfony.com/download)
 
 ---
 
