@@ -1,20 +1,20 @@
 up:
-	docker compose up -d --build
+	cd ./docker && docker compose up -d --build
 
 down:
-	docker compose down
+	cd ./docker && docker compose down
 
 logs:
-	docker compose logs -f
+	cd ./docker && docker compose logs -f
 
 bash:
-	docker compose exec php bash
+	cd ./docker && docker compose exec php bash
 
 install:
-	docker compose exec php composer install
+	cd ./docker && docker compose exec php composer install
 
 console:
-	docker compose exec php php bin/console $(args)
+	cd ./docker && docker compose exec php php bin/console $(args)
 
 dbshell:
-	docker compose exec db mysql -usymfony -psymfony app
+	cd ./docker && docker compose exec db mysql -usymfony -psymfony app
