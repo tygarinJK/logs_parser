@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Dto\LogsQueryData;
 use App\Entity\LogEntry;
 use App\Services\LogsParser\Repository\LogEntryRepositoryInterface;
 use App\Services\LogsParser\ValueObject\ParsedLine;
@@ -18,30 +19,35 @@ class LogEntryRepository extends ServiceEntityRepository implements LogEntryRepo
         parent::__construct($registry, LogEntry::class);
     }
 
-    //    /**
-    //     * @return LogEntry[] Returns an array of LogEntry objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('l')
-    //            ->andWhere('l.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('l.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function getCount(LogsQueryData $data): int
+    {
+        $qb = $this->createQueryBuilder('log_entry')
+            ->select('COUNT(log_entry.id)');
 
-    //    public function findOneBySomeField($value): ?LogEntry
-    //    {
-    //        return $this->createQueryBuilder('l')
-    //            ->andWhere('l.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        // Filer by: serviceNames[]
+        if ($serviceNames = $data->getServiceNames()) {
+            $qb->andWhere('log_entry.serviceName IN (:serviceNames)')
+                ->setParameter('serviceNames', $serviceNames);
+        }
+
+        // Filer by: statusCode
+        if ($statusCode = $data->getStatusCode()) {
+            $qb->andWhere('log_entry.statusCode = :statusCode')
+                ->setParameter('statusCode', $statusCode);
+        }
+
+        // Filer by: flexible date (startDate and endDate)
+        if ($startDate = $data->getStartDate()) {
+            $qb->andWhere('log_entry.date >= :startDate')
+                ->setParameter('startDate', $startDate);
+        }
+        if ($endDate = $data->getEndDate()) {
+            $qb->andWhere('log_entry.date <= :endDate')
+                ->setParameter('endDate', $endDate);
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
 
     public function save(ParsedLine ...$parsedLines): void
     {

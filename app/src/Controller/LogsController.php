@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Controller;
+
+use App\Dto\LogsQueryData;
+use App\Repository\LogEntryRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
+
+final class LogsController extends AbstractController
+{
+    #[Route('/count', name: 'app.logs.count', methods: ['GET'])]
+    public function __invoke(Request $request, LogEntryRepository $repository): JsonResponse
+    {
+        $parameters = $request->query->all();
+        $output = $repository->getCount(LogsQueryData::fromArray($parameters));
+
+        return new JsonResponse(['counter' => $output]);
+    }
+}
