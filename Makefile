@@ -18,3 +18,6 @@ console:
 
 dbshell:
 	cd ./docker && docker compose exec db mysql -usymfony -psymfony app
+
+import:
+	cd ./docker && docker compose exec php php bin/console app:import-logs /logs/logs.log 10

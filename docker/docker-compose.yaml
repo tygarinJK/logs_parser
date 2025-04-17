@@ -8,6 +8,7 @@ services:
     container_name: ${PROJECT_NAME}_php
     volumes:
       - ../app:/var/www/html
+      - ../logs:/logs:ro
     depends_on:
       - db
 
