@@ -1,23 +1,30 @@
+start: \
+	build \
+	up \
+	composer-install \
+	dbupdate \
+	run-migrations
+
+build:
+	cd ./docker && docker compose build --no-cache
+
 up:
-	cd ./docker && docker compose up -d --build
+	cd ./docker && docker compose up -d
+
+composer-install:
+	cd ./docker && docker compose exec php composer install
+
+dbupdate:
+	cd ./docker && docker compose exec php php bin/console doctrine:database:create --if-not-exists
+
+run-migrations:
+	cd ./docker && docker compose exec php php bin/console doctrine:migrations:migrate --no-interaction
 
 down:
 	cd ./docker && docker compose down
 
-logs:
-	cd ./docker && docker compose logs -f
-
-bash:
-	cd ./docker && docker compose exec php bash
-
-install:
-	cd ./docker && docker compose exec php composer install
-
-console:
-	cd ./docker && docker compose exec php php bin/console $(args)
-
-dbshell:
-	cd ./docker && docker compose exec db mysql -usymfony -psymfony app
-
 import:
 	cd ./docker && docker compose exec php php bin/console app:import-logs /logs/logs.log 10
+
+test:
+	cd ./docker && docker compose exec php bin/phpunit

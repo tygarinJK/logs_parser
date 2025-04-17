@@ -5,10 +5,6 @@ RUN apt-get update && apt-get install -y \
     mariadb-client \
     && docker-php-ext-install pdo pdo_mysql intl zip opcache
 
-RUN apt-get update && apt-get install -y librabbitmq-dev \
-    && pecl install amqp \
-    && docker-php-ext-enable amqp
-
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
