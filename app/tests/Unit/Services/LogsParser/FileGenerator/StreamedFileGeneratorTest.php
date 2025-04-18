@@ -38,7 +38,6 @@ final class StreamedFileGeneratorTest extends TestCase
         $generator = new StreamedFileGenerator($this->tempFile);
         $lines = $generator->getLines();
 
-        $this->assertIsIterable($lines);
         $this->assertEquals(['line_first', 'line_second', 'line_third'], iterator_to_array($lines));
     }
 

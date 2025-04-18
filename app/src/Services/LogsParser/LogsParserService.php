@@ -22,7 +22,7 @@ readonly class LogsParserService implements LogsParserServiceInterface
     {
         $chunk = [];
 
-        if (!is_numeric($iteration_size) || $iteration_size < 1) {
+        if ($iteration_size < 1) {
             throw new \UnexpectedValueException('Iteration size must be a positive integer.');
         }
 

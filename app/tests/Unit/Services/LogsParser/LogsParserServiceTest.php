@@ -23,6 +23,9 @@ final class LogsParserServiceTest extends TestCase implements LogEntryRepository
 {
     private LogsParserServiceInterface $logsParserService;
 
+    /**
+     * @var array<Line>
+     */
     private array $savedLogEntries = [];
 
     protected function setUp(): void
@@ -81,10 +84,11 @@ final class LogsParserServiceTest extends TestCase implements LogEntryRepository
         $this->assertEquals($parsedLines, $this->savedLogEntries);
     }
 
+    /**
+     * @return iterable<array{string, int}>
+     */
     public static function provideIterationSize(): iterable
     {
-        yield ['path/to/logs1.log', 100];
-
         yield ['path/to/logs1.log', 0];
 
         yield ['path/to/logs1.log', -100];
@@ -93,11 +97,7 @@ final class LogsParserServiceTest extends TestCase implements LogEntryRepository
     #[DataProvider('provideIterationSize')]
     public function testIterationSize(string $path, int $iteration_size): void
     {
-        $this->assertIsInt($iteration_size);
-
-        if ($iteration_size <= 0) {
-            $this->expectException(\UnexpectedValueException::class);
-        }
+        $this->expectException(\UnexpectedValueException::class);
 
         $fileGenerator = $this->createMock(FileGeneratorInterface::class);
 

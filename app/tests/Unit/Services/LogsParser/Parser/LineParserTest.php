@@ -44,7 +44,7 @@ final class LineParserTest extends TestCase
         $this->parser->parseLine(self::LOG_LINE_INVALID);
     }
 
-    public function testMatchLine()
+    public function testMatchLine(): void
     {
         $matches = $this->parser->matchLine(self::LOG_LINE);
 
@@ -54,7 +54,7 @@ final class LineParserTest extends TestCase
         $this->assertSame('201', $matches['4']);
     }
 
-    public function testMatchInvalidLine()
+    public function testMatchInvalidLine(): void
     {
         $this->expectException(LineParserException::class);
 

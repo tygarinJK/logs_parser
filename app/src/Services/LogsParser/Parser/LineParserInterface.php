@@ -9,6 +9,8 @@ interface LineParserInterface
     public function parseLine(string $line): Line;
 
     /**
+     * @return array<string>
+     *
      * @throws LineParserException
      */
     public function matchLine(string $logLine): array;
