@@ -28,3 +28,6 @@ import:
 
 test:
 	cd ./docker && docker compose exec php composer test
+
+sh:
+	cd ./docker && docker compose exec -u 1000:1000  php bash -l

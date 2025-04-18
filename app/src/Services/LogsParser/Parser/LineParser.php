@@ -12,17 +12,20 @@ class LineParser implements LineParserInterface
     {
         $matches = $this->matchLine($line);
 
-        $dateTime = $this->parseDate($matches['2']);
+        $dateTime = $this->parseDate($matches[2]);
 
         return new Line(
-            $matches['1'],
+            $matches[1],
             $dateTime,
-            $matches['3'],
-            (int) $matches['4']
+            $matches[3],
+            (int) $matches[4]
         );
     }
 
-    public function matchLine(string $logLine): array
+    /**
+     * @return array<string>
+     */
+    private function matchLine(string $logLine): array
     {
         if (!preg_match(self::REGEX, $logLine, $matches)) {
             throw new LineParserException(sprintf('Invalid format: Unable to parse line "%s"', $logLine));
@@ -31,7 +34,7 @@ class LineParser implements LineParserInterface
         return $matches;
     }
 
-    public function parseDate(string $raw): \DateTimeImmutable
+    private function parseDate(string $raw): \DateTimeImmutable
     {
         $date = \DateTimeImmutable::createFromFormat('d/M/Y:H:i:s O', $raw);
 

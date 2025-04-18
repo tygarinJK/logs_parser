@@ -6,7 +6,6 @@ namespace App\Tests\Unit\Services\LogsParser\Parser;
 
 use App\Services\LogsParser\Parser\LineParser;
 use App\Services\LogsParser\Parser\LineParserException;
-use App\Services\LogsParser\Parser\Line;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -18,8 +17,8 @@ final class LineParserTest extends TestCase
 {
     private LineParser $parser;
 
-    private const LOG_LINE = 'USER-SERVICE - - [17/Aug/2018:09:21:53 +0000] "POST /users HTTP/1.1" 201';
-    private const LOG_LINE_INVALID = 'Invalid log line without expected format';
+    private const LOG_LINE_VALID = 'SOME-VERY-USEFUL-SERVICE - - [18/Apr/2025:09:21:53 +0000] "POST /users HTTP/1.1" 418';
+    private const LOG_LINE_INVALID = 'This line will definitely not be parsed';
 
     protected function setUp(): void
     {
@@ -28,13 +27,12 @@ final class LineParserTest extends TestCase
 
     public function testParseLine(): void
     {
-        $parsed = $this->parser->parseLine(self::LOG_LINE);
+        $parsed = $this->parser->parseLine(self::LOG_LINE_VALID);
 
-        $this->assertInstanceOf(Line::class, $parsed);
-        $this->assertSame('USER-SERVICE', $parsed->getServiceName());
-        $this->assertEquals(new \DateTimeImmutable('2018-08-17 09:21:53 +0000'), $parsed->getDateTime());
+        $this->assertSame('SOME-VERY-USEFUL-SERVICE', $parsed->getServiceName());
+        $this->assertEquals(new \DateTimeImmutable('18/Apr/2025:09:21:53 +0000'), $parsed->getDateTime());
         $this->assertSame('POST /users HTTP/1.1', $parsed->getMessage());
-        $this->assertSame(201, $parsed->getStatusCode());
+        $this->assertSame(418, $parsed->getStatusCode());
     }
 
     public function testParseInvalidLine(): void
@@ -42,39 +40,5 @@ final class LineParserTest extends TestCase
         $this->expectException(LineParserException::class);
 
         $this->parser->parseLine(self::LOG_LINE_INVALID);
-    }
-
-    public function testMatchLine(): void
-    {
-        $matches = $this->parser->matchLine(self::LOG_LINE);
-
-        $this->assertSame('USER-SERVICE', $matches['1']);
-        $this->assertSame('17/Aug/2018:09:21:53 +0000', $matches['2']);
-        $this->assertSame('POST /users HTTP/1.1', $matches['3']);
-        $this->assertSame('201', $matches['4']);
-    }
-
-    public function testMatchInvalidLine(): void
-    {
-        $this->expectException(LineParserException::class);
-
-        $this->parser->matchLine(self::LOG_LINE_INVALID);
-    }
-
-    public function testParseDate(): void
-    {
-        $dateStr = '01/Jan/2020:00:00:00 +0000';
-
-        $parsed = $this->parser->parseDate($dateStr);
-
-        $this->assertInstanceOf(\DateTimeImmutable::class, $parsed);
-        $this->assertEquals(new \DateTimeImmutable('2020-01-01 00:00:00 +0000'), $parsed);
-    }
-
-    public function testParseInvalidDate(): void
-    {
-        $this->expectException(LineParserException::class);
-
-        $this->parser->parseDate('invalid-date');
     }
 }
