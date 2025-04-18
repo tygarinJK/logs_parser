@@ -16,16 +16,15 @@ RUN set -xe \
         libzip-dev  \
         mariadb-client \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc)  \
-        gd  \
-        intl  \
+    && docker-php-ext-install -j$(nproc) \
+        gd \
+        intl \
         opcache \
-        pdo  \
-        pdo_mysql  \
-        xml  \
-        zip
-
-RUN \
+        pdo \
+        pdo_mysql \
+        xml \
+        zip \
+    # PHP ini settings
     echo "memory_limit=512M" > /usr/local/etc/php/conf.d/zz-php.ini
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
