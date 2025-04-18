@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Unit\Services\LogsParser\FileGenerator;
 
 use App\Services\LogsParser\FileGenerator\NotFoundException;
@@ -7,6 +9,9 @@ use App\Services\LogsParser\FileGenerator\StreamedFileGenerator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 #[CoversClass(StreamedFileGenerator::class)]
 final class StreamedFileGeneratorTest extends TestCase
 {
@@ -52,7 +57,7 @@ final class StreamedFileGeneratorTest extends TestCase
     {
         $file = tempnam(sys_get_temp_dir(), 'test_log_');
 
-        if ($file === false) {
+        if (false === $file) {
             throw new \RuntimeException('Unable to create temp file');
         }
 

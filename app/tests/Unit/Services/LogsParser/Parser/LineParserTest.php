@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Unit\Services\LogsParser\Parser;
 
 use App\Services\LogsParser\Parser\LineParser;
@@ -8,6 +10,9 @@ use App\Services\LogsParser\Parser\Line;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 #[CoversClass(LineParser::class)]
 final class LineParserTest extends TestCase
 {

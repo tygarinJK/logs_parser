@@ -10,7 +10,6 @@ use App\Services\LogsParser\LogsParserServiceInterface;
 use App\Services\LogsParser\Parser\LineParserInterface;
 use App\Services\LogsParser\Parser\Line;
 use App\Services\LogsParser\Repository\LogEntryRepositoryInterface;
-use ArrayIterator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -41,14 +40,14 @@ final class LogsParserServiceTest extends TestCase implements LogEntryRepository
     {
         $logLines = [
             'USER-SERVICE - - [17/Aug/2018:09:21:53 +0000] "POST /users HTTP/1.1" 201',
-            'INVOICE-SERVICE - - [17/Aug/2018:09:21:55 +0000] "POST /invoices HTTP/1.1" 201'
+            'INVOICE-SERVICE - - [17/Aug/2018:09:21:55 +0000] "POST /invoices HTTP/1.1" 201',
         ];
 
         $fileGenerator = $this->createMock(FileGeneratorInterface::class);
         $fileGenerator
             ->expects(self::once())
             ->method('getLines')
-            ->willReturn(new ArrayIterator($logLines))
+            ->willReturn(new \ArrayIterator($logLines))
         ;
 
         $logger = $this->createMock(LoggerInterface::class);

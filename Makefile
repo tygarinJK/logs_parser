@@ -27,4 +27,4 @@ import:
 	cd ./docker && docker compose exec php php bin/console app:import-logs /logs/logs.log 10
 
 test:
-	cd ./docker && docker compose exec php composer unit
+	cd ./docker && docker compose exec php composer test
