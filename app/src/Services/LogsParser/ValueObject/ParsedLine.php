@@ -1,17 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\LogsParser\ValueObject;
 
 readonly class ParsedLine
 {
     public function __construct(
-        private string             $serviceName,
+        private string $serviceName,
         private \DateTimeInterface $dateTime,
-        private string             $message,
-        private int                $statusCode,
-    )
-    {
-    }
+        private string $message,
+        private int $statusCode,
+    ) {}
 
     public function getServiceName(): string
     {

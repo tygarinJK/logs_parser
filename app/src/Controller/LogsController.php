@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Dto\LogsQueryData;
@@ -12,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class LogsController extends AbstractController
 {
     #[Route('/count', name: 'app.logs.count', methods: ['GET'])]
-    public function __invoke(Request $request, LogEntryRepository $repository): JsonResponse
+    public function countAction(Request $request, LogEntryRepository $repository): JsonResponse
     {
         $parameters = $request->query->all();
         $output = $repository->getCount(LogsQueryData::fromArray($parameters));

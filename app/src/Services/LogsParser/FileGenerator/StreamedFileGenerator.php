@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\LogsParser\FileGenerator;
+declare(strict_types=1);
 
-use SplFileObject;
+namespace App\Services\LogsParser\FileGenerator;
 
 /**
  * Reads log files line-by-line using streaming.
@@ -10,29 +10,28 @@ use SplFileObject;
  */
 class StreamedFileGenerator implements FileGeneratorInterface
 {
-    private SplFileObject $file;
+    private \SplFileObject $file;
 
     public function __construct(
         private readonly string $path
-    )
-    {
+    ) {
         if (!is_file($this->path)) {
             throw new NotFoundException(sprintf('File does not exist: "%s"', $this->path));
         }
 
-        $this->file = new SplFileObject($this->path);
+        $this->file = new \SplFileObject($this->path);
 
         $this->file->setFlags(
-            SplFileObject::READ_AHEAD |
-            SplFileObject::SKIP_EMPTY |
-            SplFileObject::DROP_NEW_LINE
+            \SplFileObject::READ_AHEAD
+            | \SplFileObject::SKIP_EMPTY
+            | \SplFileObject::DROP_NEW_LINE
         );
     }
 
     public function getLines(): iterable
     {
         foreach ($this->file as $index => $line) {
-            yield $index === 0
+            yield 0 === $index
                 ? $this->removeBom($line)
                 : $line;
         }

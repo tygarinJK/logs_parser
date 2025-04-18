@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\LogsParser\Parser;
 
 use App\Services\LogsParser\ValueObject\ParsedLine;
@@ -18,7 +20,7 @@ class LineParser implements LineParserInterface
             $matches['serviceName'],
             $dateTime,
             $matches['message'],
-            $matches['statusCode']
+            (int) $matches['statusCode']
         );
     }
 
@@ -35,7 +37,7 @@ class LineParser implements LineParserInterface
     {
         $date = \DateTimeImmutable::createFromFormat('d/M/Y:H:i:s O', $raw);
 
-        if ($date === false) {
+        if (false === $date) {
             throw new LineParserException(sprintf('Invalid format: Unable to parse date "%s"', $raw));
         }
 

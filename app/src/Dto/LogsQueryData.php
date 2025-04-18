@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Dto;
 
 use Symfony\Component\Validator\Constraints as Assert;
@@ -8,25 +10,20 @@ class LogsQueryData
 {
     public function __construct(
         #[Assert\All([
-            new Assert\Type('string')
+            new Assert\Type('string'),
         ])]
         #[Assert\Optional]
         private ?array $serviceNames = null,
-
         #[Assert\Type('integer')]
         #[Assert\Optional]
         private ?int $statusCode = null,
-
         #[Assert\DateTime]
         #[Assert\Optional]
         private ?\DateTimeInterface $startDate = null,
-
         #[Assert\DateTime]
         #[Assert\Optional]
         private ?\DateTimeInterface $endDate = null,
-    )
-    {
-    }
+    ) {}
 
     public function getServiceNames(): ?array
     {

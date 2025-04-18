@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\LogsParser\Parser;
 
 use App\Services\LogsParser\ValueObject\ParsedLine;
@@ -17,5 +19,4 @@ interface LineParserInterface
      * @throws LineParserException
      */
     public function parseDate(string $raw): \DateTimeImmutable;
-
 }

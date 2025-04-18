@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use App\Services\LogsParser\FileGenerator\StreamedFileGenerator;
@@ -18,8 +20,7 @@ class ImportLogsCommand extends Command
 {
     public function __construct(
         private readonly LogsParserServiceInterface $logsParserService,
-    )
-    {
+    ) {
         parent::__construct();
     }
 
@@ -49,7 +50,7 @@ class ImportLogsCommand extends Command
 
             $output->writeln('<info>Logs imported successfully.</info>');
         } catch (\Exception $e) {
-            $output->writeln('<error>Error importing logs: ' . $e->getMessage() . '</error>');
+            $output->writeln('<error>Error importing logs: '.$e->getMessage().'</error>');
 
             return Command::FAILURE;
         }

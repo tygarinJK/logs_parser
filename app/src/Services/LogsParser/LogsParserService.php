@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\LogsParser;
 
 use App\Services\LogsParser\FileGenerator\FileGeneratorInterface;
@@ -11,16 +13,18 @@ use Psr\Log\LoggerInterface;
 readonly class LogsParserService implements LogsParserServiceInterface
 {
     public function __construct(
-        private LoggerInterface             $logger,
+        private LoggerInterface $logger,
         private LogEntryRepositoryInterface $repository,
-        private LineParserInterface         $lineParser,
-    )
-    {
-    }
+        private LineParserInterface $lineParser,
+    ) {}
 
     public function parseLogs(FileGeneratorInterface $generator, int $iteration_size): void
     {
         $chunk = [];
+
+        if (!is_numeric($iteration_size) || $iteration_size < 1) {
+            throw new \UnexpectedValueException('Iteration size must be a positive integer.');
+        }
 
         foreach ($generator->getLines() as $key => $line) {
             try {
@@ -32,7 +36,7 @@ readonly class LogsParserService implements LogsParserServiceInterface
                     $chunk = [];
                 }
             } catch (LineParserException $e) {
-                $this->logger->error("Error parsing line $key: " . $e->getMessage());
+                $this->logger->error("Error parsing line {$key}: ".$e->getMessage());
 
                 continue;
             }
