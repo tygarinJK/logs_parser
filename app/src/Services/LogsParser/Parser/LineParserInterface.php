@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\LogsParser\Parser;
 
-use App\Services\LogsParser\ValueObject\ParsedLine;
-
 interface LineParserInterface
 {
-    public function parseLine(string $line): ParsedLine;
+    public function parseLine(string $line): Line;
 
     /**
      * @throws LineParserException

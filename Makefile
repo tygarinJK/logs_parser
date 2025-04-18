@@ -1,4 +1,4 @@
-start: \
+install: \
 	build \
 	up \
 	composer-install \

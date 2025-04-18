@@ -6,8 +6,8 @@ namespace App\Repository;
 
 use App\Dto\LogsQueryData;
 use App\Entity\LogEntry;
+use App\Services\LogsParser\Parser\Line;
 use App\Services\LogsParser\Repository\LogEntryRepositoryInterface;
-use App\Services\LogsParser\ValueObject\ParsedLine;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -56,7 +56,7 @@ class LogEntryRepository extends ServiceEntityRepository implements LogEntryRepo
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function save(ParsedLine ...$parsedLines): void
+    public function save(Line ...$parsedLines): void
     {
         $em = $this->getEntityManager();
 

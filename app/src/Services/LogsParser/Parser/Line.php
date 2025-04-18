@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Services\LogsParser\ValueObject;
+namespace App\Services\LogsParser\Parser;
 
-readonly class ParsedLine
+readonly class Line
 {
     public function __construct(
         private string $serviceName,

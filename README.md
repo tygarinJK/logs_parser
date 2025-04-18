@@ -25,7 +25,7 @@ git clone https://github.com/your-name/your-repo.git
 cd your-repo
 
 # Start the environment
-make start
+make install
 
 # Import the logs entries
 make import

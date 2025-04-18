@@ -4,23 +4,21 @@ declare(strict_types=1);
 
 namespace App\Services\LogsParser\Parser;
 
-use App\Services\LogsParser\ValueObject\ParsedLine;
-
 class LineParser implements LineParserInterface
 {
-    private const REGEX = '/^(?<serviceName>[^\s]+)\s+-\s+-\s+\[(?<date>[^\]]+)\]\s+"(?<message>[^"]+)"\s+(?<statusCode>\d+)/';
+    private const REGEX = '/^(\S+)\s+-\s+-\s+\[(.*?)\]\s+"(.*?)"\s+(\d{3})$/';
 
-    public function parseLine(string $line): ParsedLine
+    public function parseLine(string $line): Line
     {
         $matches = $this->matchLine($line);
 
-        $dateTime = $this->parseDate($matches['date']);
+        $dateTime = $this->parseDate($matches['2']);
 
-        return new ParsedLine(
-            $matches['serviceName'],
+        return new Line(
+            $matches['1'],
             $dateTime,
-            $matches['message'],
-            (int) $matches['statusCode']
+            $matches['3'],
+            (int) $matches['4']
         );
     }
 

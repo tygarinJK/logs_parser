@@ -4,7 +4,7 @@ namespace App\Tests\Unit\Services\LogsParser\Parser;
 
 use App\Services\LogsParser\Parser\LineParser;
 use App\Services\LogsParser\Parser\LineParserException;
-use App\Services\LogsParser\ValueObject\ParsedLine;
+use App\Services\LogsParser\Parser\Line;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -25,7 +25,7 @@ final class LineParserTest extends TestCase
     {
         $parsed = $this->parser->parseLine(self::LOG_LINE);
 
-        $this->assertInstanceOf(ParsedLine::class, $parsed);
+        $this->assertInstanceOf(Line::class, $parsed);
         $this->assertSame('USER-SERVICE', $parsed->getServiceName());
         $this->assertEquals(new \DateTimeImmutable('2018-08-17 09:21:53 +0000'), $parsed->getDateTime());
         $this->assertSame('POST /users HTTP/1.1', $parsed->getMessage());
@@ -43,10 +43,10 @@ final class LineParserTest extends TestCase
     {
         $matches = $this->parser->matchLine(self::LOG_LINE);
 
-        $this->assertSame('USER-SERVICE', $matches['serviceName']);
-        $this->assertSame('17/Aug/2018:09:21:53 +0000', $matches['date']);
-        $this->assertSame('POST /users HTTP/1.1', $matches['message']);
-        $this->assertSame('201', $matches['statusCode']);
+        $this->assertSame('USER-SERVICE', $matches['1']);
+        $this->assertSame('17/Aug/2018:09:21:53 +0000', $matches['2']);
+        $this->assertSame('POST /users HTTP/1.1', $matches['3']);
+        $this->assertSame('201', $matches['4']);
     }
 
     public function testMatchInvalidLine()

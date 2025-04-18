@@ -8,8 +8,8 @@ use App\Services\LogsParser\FileGenerator\FileGeneratorInterface;
 use App\Services\LogsParser\LogsParserService;
 use App\Services\LogsParser\LogsParserServiceInterface;
 use App\Services\LogsParser\Parser\LineParserInterface;
+use App\Services\LogsParser\Parser\Line;
 use App\Services\LogsParser\Repository\LogEntryRepositoryInterface;
-use App\Services\LogsParser\ValueObject\ParsedLine;
 use ArrayIterator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -61,7 +61,7 @@ final class LogsParserServiceTest extends TestCase implements LogEntryRepository
             ->method('parseLine')
             ->willReturnCallback(
                 function (string $line) use (&$parsedLines) {
-                    $parsedLine = new ParsedLine(
+                    $parsedLine = new Line(
                         uniqid(),
                         new \DateTimeImmutable('17/Aug/2018:09:21:53 +0000'),
                         '',
@@ -105,7 +105,7 @@ final class LogsParserServiceTest extends TestCase implements LogEntryRepository
         $this->logsParserService->parseLogs($fileGenerator, $iteration_size);
     }
 
-    public function save(ParsedLine ...$parsedLines): void
+    public function save(Line ...$parsedLines): void
     {
         $this->savedLogEntries = array_merge($this->savedLogEntries, $parsedLines);
     }
