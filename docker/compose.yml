@@ -1,20 +1,17 @@
-version: '3.8'
 
 services:
   php:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: ${PROJECT_NAME}_php
+    container_name: ${COMPOSE_PROJECT_NAME}_php
     volumes:
       - ../app:/var/www/html
       - ../logs:/logs:ro
-    depends_on:
-      - db
 
-  web:
+  nginx:
     image: nginx:1.25
-    container_name: ${PROJECT_NAME}_nginx
+    container_name: ${COMPOSE_PROJECT_NAME}_nginx
     ports:
       - "8088:80"
     volumes:
@@ -23,9 +20,9 @@ services:
     depends_on:
       - php
 
-  db:
+  mariadb:
     image: mariadb:10.11
-    container_name: ${PROJECT_NAME}_db
+    container_name: ${COMPOSE_PROJECT_NAME}_mariadb
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
@@ -39,3 +36,4 @@ services:
 
 volumes:
   db_data:
+    name: ${COMPOSE_PROJECT_NAME}_db_data

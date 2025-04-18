@@ -6,12 +6,16 @@ install: \
 	run-migrations
 
 build:
-	cd ./docker && docker compose build --no-cache
+	@echo "Building the docker containers..."
+	cp ./docker/.env.example ./docker/.env
+	cd ./docker && docker compose build
 
 up:
 	cd ./docker && docker compose up -d
 
 composer-install:
+	@echo "Installing composer dependencies..."
+	cp ./app/.env.local.example ./app/.env
 	cd ./docker && docker compose exec php composer install
 
 dbupdate:
@@ -28,6 +32,10 @@ import:
 
 test:
 	cd ./docker && docker compose exec php composer test
+
+clean:
+	cd ./docker && docker compose down -v
+	git clean -fdx -e .idea
 
 sh:
 	cd ./docker && docker compose exec -u 1000:1000  php bash -l
