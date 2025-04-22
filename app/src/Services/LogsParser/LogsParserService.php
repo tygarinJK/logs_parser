@@ -18,11 +18,11 @@ readonly class LogsParserService implements LogsParserServiceInterface
         private LineParserInterface $lineParser,
     ) {}
 
-    public function parseLogs(FileGeneratorInterface $generator, int $iteration_size): void
+    public function parseLogs(FileGeneratorInterface $generator, int $iterationSize): void
     {
         $chunk = [];
 
-        if ($iteration_size < 1) {
+        if ($iterationSize < 1) {
             throw new \UnexpectedValueException('Iteration size must be a positive integer.');
         }
 
@@ -30,7 +30,7 @@ readonly class LogsParserService implements LogsParserServiceInterface
             try {
                 $chunk[] = $this->lineParser->parseLine($line);
 
-                if (count($chunk) >= $iteration_size) {
+                if (count($chunk) >= $iterationSize) {
                     $this->logsParserRepository->save(...$chunk);
 
                     $chunk = [];

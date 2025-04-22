@@ -8,5 +8,5 @@ use App\Services\LogsParser\FileGenerator\FileGeneratorInterface;
 
 interface LogsParserServiceInterface
 {
-    public function parseLogs(FileGeneratorInterface $generator, int $iteration_size): void;
+    public function parseLogs(FileGeneratorInterface $generator, int $iterationSize): void;
 }
