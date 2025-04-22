@@ -25,7 +25,7 @@ RUN set -xe \
         xml \
         zip \
     # PHP ini settings
-    echo "memory_limit=512M" > /usr/local/etc/php/conf.d/zz-php.ini
+    && echo "memory_limit=512M" > /usr/local/etc/php/conf.d/zz-php.ini
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
