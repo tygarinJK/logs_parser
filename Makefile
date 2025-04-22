@@ -16,26 +16,26 @@ up:
 composer-install:
 	@echo "Installing composer dependencies..."
 	cp ./app/.env.local.example ./app/.env
-	cd ./docker && docker compose exec php composer install
+	cd ./docker && docker compose exec -u $(shell id -u):$(shell id -u) php composer install
 
 dbupdate:
-	cd ./docker && docker compose exec php php bin/console doctrine:database:create --if-not-exists
+	cd ./docker && docker compose exec -u $(shell id -u):$(shell id -u) php php bin/console doctrine:database:create --if-not-exists
 
 run-migrations:
-	cd ./docker && docker compose exec php php bin/console doctrine:migrations:migrate --no-interaction
+	cd ./docker && docker compose exec -u $(shell id -u):$(shell id -u) php php bin/console doctrine:migrations:migrate --no-interaction
 
 down:
 	cd ./docker && docker compose down
 
 import:
-	cd ./docker && docker compose exec php php bin/console app:import-logs /logs/logs.log 10
+	cd ./docker && docker compose exec -u $(shell id -u):$(shell id -u) php php bin/console app:import-logs /logs/logs.log 10
 
 test:
-	cd ./docker && docker compose exec php composer test
+	cd ./docker && docker compose exec -u $(shell id -u):$(shell id -u) php composer test
 
 clean:
 	cd ./docker && docker compose down -v
 	git clean -fdx -e .idea
 
 sh:
-	cd ./docker && docker compose exec -u 1000:1000  php bash -l
+	cd ./docker && docker compose exec -u $(shell id -u):$(shell id -u) php bash -l

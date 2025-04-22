@@ -28,14 +28,14 @@ class ImportLogsCommand extends Command
     {
         $this
             ->addArgument('file', InputArgument::REQUIRED, 'Path to log file')
-            ->addArgument('iteration_size', InputArgument::OPTIONAL, 'Iteration size')
+            ->addArgument('iterationSize', InputArgument::OPTIONAL, 'Iteration size')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $filepath = $input->getArgument('file');
-        $iteration_size = $input->getArgument('iteration_size');
+        $iteration_size = $input->getArgument('iterationSize');
 
         if ($iteration_size && !is_numeric($iteration_size)) {
             $output->writeln('<error>Iteration size should be numeric.</error>');
