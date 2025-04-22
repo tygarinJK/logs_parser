@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Feature\Controller;
 
 use App\Controller\LogsController;
-use App\Repository\LogEntryRepository;
+use App\Repository\LogEntryRepositoryInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Random\RandomException;
@@ -46,9 +46,9 @@ final class LogsControllerTest extends WebTestCase
         $client = self::createClient();
         $container = self::getContainer();
 
-        $logRepository = $this->createMock(LogEntryRepository::class);
+        $logRepository = $this->createMock(LogEntryRepositoryInterface::class);
         $logRepository->method('getCount')->willReturn($expectedCount);
-        $container->set(LogEntryRepository::class, $logRepository);
+        $container->set(LogEntryRepositoryInterface::class, $logRepository);
 
         $client->request('GET', '/count?'.http_build_query($queryParams));
 
