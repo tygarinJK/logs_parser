@@ -14,7 +14,7 @@ readonly class LogsParserService implements LogsParserServiceInterface
 {
     public function __construct(
         private LoggerInterface $logger,
-        private LogEntryRepositoryInterface $repository,
+        private LogEntryRepositoryInterface $logEntryRepository,
         private LineParserInterface $lineParser,
     ) {}
 
@@ -31,7 +31,7 @@ readonly class LogsParserService implements LogsParserServiceInterface
                 $chunk[] = $this->lineParser->parseLine($line);
 
                 if (count($chunk) >= $iteration_size) {
-                    $this->repository->save(...$chunk);
+                    $this->logEntryRepository->save(...$chunk);
 
                     $chunk = [];
                 }
@@ -43,7 +43,7 @@ readonly class LogsParserService implements LogsParserServiceInterface
         }
 
         if (!empty($chunk)) {
-            $this->repository->save(...$chunk);
+            $this->logEntryRepository->save(...$chunk);
         }
     }
 }
