@@ -32,10 +32,13 @@ make import
 
 # Test the application
 make test
+
+# Stop and Clean the environment
+make clean
 ```
 
 Then open http://localhost:8088/count in your browser to see the number of log messages.
-You can also use such filter as:
+You can also use such filters as:
 - `/count?serviceNames[]=`
 - `/count?statusCode=`
 - `/count?startDate=`
