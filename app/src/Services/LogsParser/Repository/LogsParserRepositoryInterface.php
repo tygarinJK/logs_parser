@@ -6,7 +6,7 @@ namespace App\Services\LogsParser\Repository;
 
 use App\Services\LogsParser\Parser\Line;
 
-interface LogEntryRepositoryInterface
+interface LogsParserRepositoryInterface
 {
     public function save(Line ...$parsedLines): void;
 }

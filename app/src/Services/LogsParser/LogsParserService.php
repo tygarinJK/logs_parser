@@ -7,14 +7,14 @@ namespace App\Services\LogsParser;
 use App\Services\LogsParser\FileGenerator\FileGeneratorInterface;
 use App\Services\LogsParser\Parser\LineParserException;
 use App\Services\LogsParser\Parser\LineParserInterface;
-use App\Services\LogsParser\Repository\LogEntryRepositoryInterface;
+use App\Services\LogsParser\Repository\LogsParserRepositoryInterface;
 use Psr\Log\LoggerInterface;
 
 readonly class LogsParserService implements LogsParserServiceInterface
 {
     public function __construct(
         private LoggerInterface $logger,
-        private LogEntryRepositoryInterface $logEntryRepository,
+        private LogsParserRepositoryInterface $logsParserRepository,
         private LineParserInterface $lineParser,
     ) {}
 
@@ -31,7 +31,7 @@ readonly class LogsParserService implements LogsParserServiceInterface
                 $chunk[] = $this->lineParser->parseLine($line);
 
                 if (count($chunk) >= $iteration_size) {
-                    $this->logEntryRepository->save(...$chunk);
+                    $this->logsParserRepository->save(...$chunk);
 
                     $chunk = [];
                 }
@@ -43,7 +43,7 @@ readonly class LogsParserService implements LogsParserServiceInterface
         }
 
         if (!empty($chunk)) {
-            $this->logEntryRepository->save(...$chunk);
+            $this->logsParserRepository->save(...$chunk);
         }
     }
 }

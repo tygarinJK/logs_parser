@@ -7,14 +7,16 @@ namespace App\Repository;
 use App\Dto\LogsQueryData;
 use App\Entity\LogEntry;
 use App\Services\LogsParser\Parser\Line;
-use App\Services\LogsParser\Repository\LogEntryRepositoryInterface;
+use App\Services\LogsParser\Repository\LogsParserRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<LogEntry>
  */
-class LogEntryRepository extends ServiceEntityRepository implements LogEntryRepositoryInterface
+class LogEntryRepository extends ServiceEntityRepository implements
+    LogEntryRepositoryInterface,
+    LogsParserRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

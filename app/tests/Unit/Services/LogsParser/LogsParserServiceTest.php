@@ -9,7 +9,7 @@ use App\Services\LogsParser\LogsParserService;
 use App\Services\LogsParser\Parser\LineParser;
 use App\Services\LogsParser\Parser\LineParserInterface;
 use App\Services\LogsParser\Parser\Line;
-use App\Services\LogsParser\Repository\LogEntryRepositoryInterface;
+use App\Services\LogsParser\Repository\LogsParserRepositoryInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -62,7 +62,7 @@ final class LogsParserServiceTest extends TestCase
 
         $logger = $this->createMock(LoggerInterface::class);
 
-        $lineRepository = new class () implements LogEntryRepositoryInterface {
+        $lineRepository = new class () implements LogsParserRepositoryInterface {
             /**
              * @var array<Line>
              */
@@ -96,7 +96,7 @@ final class LogsParserServiceTest extends TestCase
     {
         $logsParserService = new LogsParserService(
             $this->createMock(LoggerInterface::class),
-            $this->createMock(LogEntryRepositoryInterface::class),
+            $this->createMock(LogsParserRepositoryInterface::class),
             $this->createMock(LineParserInterface::class),
         );
 
