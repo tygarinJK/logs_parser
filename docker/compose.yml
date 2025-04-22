@@ -1,0 +1,39 @@
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${COMPOSE_PROJECT_NAME}_php
+    volumes:
+      - ../app:/var/www/html
+      - ../logs:/logs:ro
+
+  nginx:
+    image: nginx:1.25
+    container_name: ${COMPOSE_PROJECT_NAME}_nginx
+    ports:
+      - "8088:80"
+    volumes:
+      - ../app:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+
+  mariadb:
+    image: mariadb:10.11
+    container_name: ${COMPOSE_PROJECT_NAME}_mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
+    name: ${COMPOSE_PROJECT_NAME}_db_data

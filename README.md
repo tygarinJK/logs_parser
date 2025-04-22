@@ -7,7 +7,6 @@ Includes:
 - MariaDB 10.6+
 - Symfony 7.2
 - Custom ports (HTTP: `8088`, DB: `3307`)
-- One-command startup with `Makefile`
 
 ---
 
@@ -15,8 +14,6 @@ Includes:
 
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
-- [GNU Make](https://www.gnu.org/software/make/)
-- [Symfony CLI (optional)](https://symfony.com/download)
 
 ---
 
@@ -27,15 +24,22 @@ Includes:
 git clone https://github.com/your-name/your-repo.git
 cd your-repo
 
-# Start the environment and build containers
-make up
-
-# Install PHP dependencies via Composer
+# Start the environment
 make install
 
-# Create the database
-make console args=doctrine:database:create
+# Import the logs entries
+make import
 
+# Test the application
+make test
+
+# Stop and Clean the environment
+make clean
 ```
 
-Then open http://localhost:8088 in your browser.
+Then open http://localhost:8088/count in your browser to see the number of log messages.
+You can also use such filters as:
+- `/count?serviceNames[]=`
+- `/count?statusCode=`
+- `/count?startDate=`
+- `/count?endDate=`
