@@ -35,9 +35,9 @@ class ImportLogsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $filepath = $input->getArgument('file');
-        $iteration_size = $input->getArgument('iterationSize');
+        $iterationSize = $input->getArgument('iterationSize');
 
-        if ($iteration_size && !is_numeric($iteration_size)) {
+        if ($iterationSize && !is_numeric($iterationSize)) {
             $output->writeln('<error>Iteration size should be numeric.</error>');
 
             return Command::FAILURE;
@@ -46,7 +46,7 @@ class ImportLogsCommand extends Command
         try {
             $generator = new StreamedFileGenerator($filepath);
 
-            $this->logsParserService->parseLogs($generator, (int) $iteration_size);
+            $this->logsParserService->parseLogs($generator, (int) $iterationSize);
 
             $output->writeln('<info>Logs imported successfully.</info>');
         } catch (\Exception $e) {
